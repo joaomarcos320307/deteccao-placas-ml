@@ -1,5 +1,9 @@
 # Detecção de Placas Veiculares com YOLOv11 e HOG + SVM
 
+<p align="center">
+  <img src="results/result_batch12.png" width="700"/>
+</p>
+
 Projeto desenvolvido para a disciplina de **Machine Learning**, com o objetivo de comparar uma abordagem baseada em **Deep Learning** (YOLOv11) e uma abordagem clássica de **Machine Learning** (HOG + SVM) para detecção e reconhecimento de placas veiculares.
 
 ---
@@ -52,10 +56,7 @@ Abordagem clássica de Machine Learning composta por:
 - Extração de características utilizando HOG (Histogram of Oriented Gradients);
 - Classificação utilizando Support Vector Machine (SVM).
 
-Neste projeto, o HOG + SVM recebe como entrada o recorte gerado pelo YOLO e classifica a região como:
-
-- Placa
-- Não placa
+Neste projeto, o modelo HOG + SVM é utilizado como uma abordagem clássica de Machine Learning para validar o recorte da região detectada pelo YOLOv11, classificando-a como placa ou não placa.
 
 ---
 
@@ -103,6 +104,23 @@ Exibição dos resultados
 | Recall | 99,64% |
 | F1-Score | 99,82% |
 
+---
+
+### Comparação entre os Modelos
+
+| Característica | YOLOv11 | HOG + SVM |
+|---------------|---------|-----------|
+| Tipo | Deep Learning | Machine Learning clássico |
+| Entrada | Imagem completa | Recorte da região |
+| Função | Localizar e recortar a placa | Classificar o recorte como placa ou não placa |
+| Precision | 99,85% | 100,00% |
+| Recall | 99,28% | 99,64% |
+| F1-score | — | 99,82% |
+| Principal vantagem | Detecta a placa diretamente na imagem | Modelo simples e interpretável |
+| Principal limitação | Maior custo computacional | Não localiza a placa sozinho |
+
+---
+
 ### Matriz de Confusão do HOG + SVM
 
 |               | Predito Não Placa | Predito Placa |
@@ -130,7 +148,7 @@ deteccao-placas-ml/
 │   └── svm_model.pkl
 │
 ├── notebooks/
-│   └── treinamento_kaggle.ipynb
+│   └── notebook-machine-learning.ipynb
 │
 ├── results/
 │   ├── comparacao_modelos.csv
@@ -168,7 +186,7 @@ deteccao-placas-ml/
 ## Tecnologias Utilizadas
 
 - Python 3
-- YOLOv11 (Ultralytics)
+- Ultralytics YOLOv11
 - OpenCV
 - Scikit-Learn
 - Scikit-Image
@@ -185,8 +203,8 @@ deteccao-placas-ml/
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/SEU-USUARIO/plate-detection-ml.git
-cd plate-detection-ml
+git clone https://github.com/joaomarcos320307/deteccao-placas-ml.git
+cd deteccao-placas-ml
 ```
 
 ### 2. Instale as dependências
@@ -203,15 +221,24 @@ streamlit run app.py
 
 ---
 
-## Aplicação Web
+## Demonstração
 
-A interface desenvolvida em Streamlit permite:
+A aplicação permite ao usuário enviar uma imagem de veículo e visualizar:
 
-- Upload de uma imagem;
-- Detecção automática da placa utilizando YOLOv11;
-- Exibição do recorte gerado;
-- Classificação do recorte pelo HOG + SVM;
-- Comparação entre as duas abordagens.
+- A detecção da placa realizada pelo YOLOv11;
+- O recorte automático da região detectada;
+- A classificação do recorte utilizando HOG + SVM;
+- A comparação entre as duas abordagens de Machine Learning.
+
+**Observação:** A interface web foi desenvolvida utilizando Streamlit e tem como objetivo demonstrar, de forma interativa, a comparação entre as abordagens YOLOv11 e HOG + SVM.
+
+---
+
+## Conclusão
+
+Os resultados obtidos demonstram que ambas as abordagens apresentaram excelente desempenho para a tarefa proposta. Enquanto o YOLOv11 se destacou na localização automática da placa na imagem completa, o HOG + SVM mostrou-se altamente eficiente na classificação dos recortes gerados, alcançando aproximadamente 99,8% de acurácia no conjunto de teste.
+
+O projeto evidencia a aplicação prática de técnicas de Deep Learning e Machine Learning clássico em problemas reais de visão computacional.
 
 ---
 
@@ -223,6 +250,12 @@ Projeto desenvolvido para a disciplina de **Machine Learning**.
 - João Marcos dos Santos Gil
 - Rubens Schueng Netto
 - Vitor Manoel Batista Miguel
+
+---
+
+## Observações
+
+O arquivo `models/svm_model.pkl` é armazenado utilizando Git LFS (Large File Storage), devido ao seu tamanho exceder o limite padrão de upload do GitHub.
 
 ---
 
