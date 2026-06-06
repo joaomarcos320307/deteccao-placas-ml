@@ -1,0 +1,2 @@
+Modelo,Acuracia,Precisao,Recall,F1-score,Tempo_Avaliacao_s,Melhores_Parametros,Melhor_F1_GridSearch
+HOG + SVM,0.9981684981684982,1.0,0.9963768115942029,0.9981851179673321,1.5452766418457031,"{'C': 10, 'gamma': 'scale', 'kernel': 'rbf'}",0.9938270653991562

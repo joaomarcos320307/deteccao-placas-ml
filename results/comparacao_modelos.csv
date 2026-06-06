@@ -1,0 +1,3 @@
+Modelo,Abordagem,Objetivo,Métricas principais,Vantagem,Limitação
+YOLOv11,Deep Learning - detecção de objetos,Localizar e recortar a placa na imagem completa,"Precision, Recall, mAP50, mAP50-95",Mais adequado para localização da placa,Maior custo computacional
+HOG + SVM,Machine Learning clássico - classificação de recortes,Classificar recortes como placa ou não placa,"Acurácia, Precision, Recall, F1-score",Mais simples e interpretável,Não localiza a placa diretamente na imagem completa
