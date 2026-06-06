@@ -204,8 +204,10 @@ A interface desenvolvida em Streamlit permite:
 
 Projeto desenvolvido para a disciplina de **Machine Learning**.
 
-**Aluno:**
-João Marcos dos Santos Gil
+**Alunos:**
+- João Marcos dos Santos Gil
+- Rubens Schueng Netto
+- Vitor Manoel Batista Miguel
 
 ---
 
