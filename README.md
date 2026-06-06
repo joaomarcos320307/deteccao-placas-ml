@@ -119,7 +119,7 @@ Apenas **uma classificação incorreta** foi observada no conjunto de teste.
 ## Estrutura do Projeto
 
 ```
-plate-detection-ml/
+deteccao-placas-ml/
 │
 ├── app.py
 ├── requirements.txt
