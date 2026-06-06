@@ -8,5 +8,3 @@ scikit-image
 joblib
 matplotlib
 pillow
-torch
-torchvision
