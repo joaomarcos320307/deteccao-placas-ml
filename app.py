@@ -61,7 +61,6 @@ def carregar_imagem(uploaded_file):
     try:
         image = Image.open(uploaded_file)
         image = ImageOps.exif_transpose(image).convert("RGB")
-
         image.thumbnail((1280, 1280))
 
         return np.array(image)
@@ -108,11 +107,16 @@ except Exception as e:
 
 
 uploaded_file = st.file_uploader(
-    "Envie uma imagem",
+    "Envie uma imagem da galeria",
     type=["jpg", "jpeg", "png", "webp"]
 )
 
-st.write(uploaded_file)
+with st.expander("Opção alternativa"):
+    camera_file = st.camera_input("Tirar foto com a câmera")
+
+if uploaded_file is None and camera_file is not None:
+    uploaded_file = camera_file
+
 
 if uploaded_file is None:
     st.info("Envie uma imagem para iniciar a detecção.")
