@@ -66,7 +66,7 @@ def carregar_imagem(uploaded_file):
         return np.array(image)
 
     except Exception as e:
-        st.error("Não foi possível carregar essa imagem. Tente enviar uma imagem JPG, PNG ou WEBP menor.")
+        st.error("Não foi possível carregar essa imagem.")
         st.exception(e)
         st.stop()
 
@@ -111,8 +111,21 @@ uploaded_file = st.file_uploader(
     type=["jpg", "jpeg", "png", "webp"]
 )
 
-with st.expander("Opção alternativa"):
-    camera_file = st.camera_input("Tirar foto com a câmera")
+
+camera_file = None
+
+with st.expander("📷 Tirar uma foto"):
+
+    ativar_camera = st.toggle(
+        "Ativar câmera",
+        value=False
+    )
+
+    if ativar_camera:
+        camera_file = st.camera_input(
+            "Capture uma imagem"
+        )
+
 
 if uploaded_file is None and camera_file is not None:
     uploaded_file = camera_file
@@ -176,7 +189,10 @@ else:
         st.warning("Nenhuma placa foi detectada pelo YOLOv11.")
 
     else:
-        det_principal = max(deteccoes, key=lambda d: d["conf_yolo"])
+        det_principal = max(
+            deteccoes,
+            key=lambda d: d["conf_yolo"]
+        )
 
         img_com_box = desenhar_box(
             img_np,
@@ -193,7 +209,12 @@ else:
 
         with col1:
             st.markdown("### YOLOv11")
-            st.image(img_com_box, caption="Imagem com bounding box", use_container_width=True)
+
+            st.image(
+                img_com_box,
+                caption="Imagem com bounding box",
+                use_container_width=True
+            )
 
             st.metric(
                 label="Confiança YOLO",
@@ -203,13 +224,14 @@ else:
             st.write(
                 f"""
                 **Bounding box:**  
-                x1={det_principal['x1']}, y1={det_principal['y1']},  
+                x1={det_principal['x1']}, y1={det_principal['y1']}  
                 x2={det_principal['x2']}, y2={det_principal['y2']}
                 """
             )
 
         with col2:
             st.markdown("### HOG + SVM")
+
             st.image(
                 det_principal["crop"],
                 caption="Recorte analisado pelo SVM",
@@ -231,8 +253,14 @@ else:
 
         st.table({
             "Modelo": ["YOLOv11", "HOG + SVM"],
-            "Entrada": ["Imagem completa", "Recorte detectado pelo YOLO"],
-            "Função": ["Localizar a placa", "Classificar o recorte"],
+            "Entrada": [
+                "Imagem completa",
+                "Recorte detectado pelo YOLO"
+            ],
+            "Função": [
+                "Localizar a placa",
+                "Classificar o recorte"
+            ],
             "Resultado": [
                 f"Placa detectada com {det_principal['conf_yolo'] * 100:.2f}% de confiança",
                 f"Classificado como {det_principal['label_svm']}"
@@ -240,4 +268,6 @@ else:
         })
 
         if len(deteccoes) > 1:
-            st.info(f"Foram encontradas {len(deteccoes)} detecções. Foi exibida a de maior confiança.")
+            st.info(
+                f"Foram encontradas {len(deteccoes)} detecções. Foi exibida a de maior confiança."
+            )
