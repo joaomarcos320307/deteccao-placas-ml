@@ -62,8 +62,7 @@ def carregar_imagem(uploaded_file):
         image = Image.open(uploaded_file)
         image = ImageOps.exif_transpose(image).convert("RGB")
 
-        max_size = 1280
-        image.thumbnail((max_size, max_size))
+        image.thumbnail((1280, 1280))
 
         return np.array(image)
 
@@ -109,14 +108,9 @@ except Exception as e:
 
 
 uploaded_file = st.file_uploader(
-    "Envie uma imagem da galeria",
+    "Envie uma imagem",
     type=["jpg", "jpeg", "png", "webp"]
 )
-
-camera_file = st.camera_input("Ou tire uma foto com a câmera")
-
-if uploaded_file is None and camera_file is not None:
-    uploaded_file = camera_file
 
 
 if uploaded_file is None:
