@@ -13,7 +13,7 @@ st.set_page_config(
 )
 
 
-@st.cache_resource
+@st.cache_resoure
 def carregar_yolo():
     return YOLO("models/best.pt")
 
@@ -112,19 +112,10 @@ uploaded_file = st.file_uploader(
 )
 
 
-camera_file = None
-
-with st.expander("📷 Tirar uma foto"):
-
-    ativar_camera = st.toggle(
-        "Ativar câmera",
-        value=False
+with st.expander("📷 Tirar uma foto", expanded=False):
+    camera_file = st.camera_input(
+        "Capture uma imagem"
     )
-
-    if ativar_camera:
-        camera_file = st.camera_input(
-            "Capture uma imagem"
-        )
 
 
 if uploaded_file is None and camera_file is not None:
