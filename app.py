@@ -13,7 +13,7 @@ st.set_page_config(
 )
 
 
-@st.cache_resoure
+@st.cache_resource
 def carregar_yolo():
     return YOLO("models/best.pt")
 
