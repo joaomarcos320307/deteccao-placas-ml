@@ -1,6 +1,6 @@
 import streamlit as st
 from ultralytics import YOLO
-from PIL import Image
+from PIL import Image, ImageOps
 import numpy as np
 import cv2
 import joblib
@@ -57,6 +57,22 @@ def desenhar_box(img, x1, y1, x2, y2, conf):
     return img_box
 
 
+def carregar_imagem(uploaded_file):
+    try:
+        image = Image.open(uploaded_file)
+        image = ImageOps.exif_transpose(image).convert("RGB")
+
+        max_size = 1280
+        image.thumbnail((max_size, max_size))
+
+        return np.array(image)
+
+    except Exception as e:
+        st.error("Não foi possível carregar essa imagem. Tente enviar uma imagem JPG, PNG ou WEBP menor.")
+        st.exception(e)
+        st.stop()
+
+
 st.title("Detecção de Placas Veiculares")
 st.markdown("### Comparação entre YOLOv11 e HOG + SVM")
 
@@ -93,17 +109,21 @@ except Exception as e:
 
 
 uploaded_file = st.file_uploader(
-    "Envie uma imagem",
-    type=["jpg", "jpeg", "png"]
+    "Envie uma imagem da galeria",
+    type=["jpg", "jpeg", "png", "webp"]
 )
+
+camera_file = st.camera_input("Ou tire uma foto com a câmera")
+
+if uploaded_file is None and camera_file is not None:
+    uploaded_file = camera_file
 
 
 if uploaded_file is None:
     st.info("Envie uma imagem para iniciar a detecção.")
 
 else:
-    image = Image.open(uploaded_file).convert("RGB")
-    img_np = np.array(image)
+    img_np = carregar_imagem(uploaded_file)
 
     st.subheader("Imagem enviada")
     st.image(img_np, use_container_width=True)
