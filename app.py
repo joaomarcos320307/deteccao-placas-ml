@@ -112,6 +112,7 @@ uploaded_file = st.file_uploader(
     type=["jpg", "jpeg", "png", "webp"]
 )
 
+st.write(uploaded_file)
 
 if uploaded_file is None:
     st.info("Envie uma imagem para iniciar a detecção.")
