@@ -1,0 +1,3 @@
+Modelo,Tipo,Treinamento,Entrada na detecção,Saída,Precision,Recall,F1-score,mAP50,mAP50-95,IoU_medio,Tempo_medio_s,Observação
+YOLOv11,Deep Learning - Detector de Objetos,Treinado com imagens completas e labels YOLO,Imagem completa,Bounding box da placa,0.9984855444750458,0.9928057553956835,0.9956375496629464,0.995,0.8262913422768603,,,Modelo mais adequado para detecção direta de objetos
+HOG + SVM,Machine Learning clássico - Detector por Sliding Window,Treinado com recortes placa/não placa e aplicado com janelas deslizantes,Imagem completa,Bounding box da placa,0.47924528301886793,0.4601449275362319,0.46950092421441775,,,0.3699273173675432,10.274820199911145,"Modelo interpretável, porém mais lento e dependente das janelas"
