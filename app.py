@@ -1,4 +1,3 @@
-```python
 import time
 
 import streamlit as st
@@ -427,4 +426,3 @@ else:
         da janela e à escala da placa.
         """
     )
-```
