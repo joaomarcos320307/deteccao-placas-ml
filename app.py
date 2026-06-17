@@ -30,8 +30,6 @@ try:
 image = Image.open(uploaded_file)
 image = ImageOps.exif_transpose(image).convert("RGB")
 
-```
-    # Reduz o tamanho para deixar o HOG + SVM mais viável no Streamlit
     image.thumbnail((960, 960))
 
     return np.array(image)
@@ -40,13 +38,11 @@ except Exception as e:
     st.error("Não foi possível carregar essa imagem.")
     st.exception(e)
     st.stop()
-```
 
 def extrair_hog(crop_rgb):
 crop_resized = cv2.resize(crop_rgb, (128, 64))
 gray = cv2.cvtColor(crop_resized, cv2.COLOR_RGB2GRAY)
 
-```
 features = hog(
     gray,
     orientations=9,
@@ -56,12 +52,10 @@ features = hog(
 )
 
 return features
-```
 
 def desenhar_box(img_rgb, box, texto, cor=(0, 255, 0)):
 img_box = img_rgb.copy()
 
-```
 x1, y1, x2, y2 = map(int, box)
 
 cv2.rectangle(
@@ -83,12 +77,10 @@ cv2.putText(
 )
 
 return img_box
-```
 
 def detectar_yolo(img_rgb, model_yolo):
 inicio = time.time()
 
-```
 results = model_yolo.predict(
     img_rgb,
     conf=CONF_YOLO_FIXA,
@@ -121,7 +113,6 @@ if len(deteccoes) == 0:
 melhor = max(deteccoes, key=lambda d: d["conf"])
 
 return melhor["box"], melhor["conf"], tempo, len(deteccoes)
-```
 
 def detectar_hog_svm(
 img_rgb,
@@ -133,7 +124,6 @@ scales=None
 if scales is None:
 scales = [0.75, 1.0, 1.25, 1.5, 1.75, 2.0]
 
-```
 inicio = time.time()
 
 h_img, w_img = img_rgb.shape[:2]
@@ -192,7 +182,6 @@ fim = time.time()
 tempo = fim - inicio
 
 return melhor_box, melhor_score, total_janelas, tempo
-```
 
 st.title("Detecção de Placas Veiculares")
 st.markdown("### Comparação entre YOLOv11 e HOG + SVM")
@@ -200,7 +189,7 @@ st.markdown("### Comparação entre YOLOv11 e HOG + SVM")
 st.write(
 """
 Envie uma imagem de veículo para comparar dois métodos de detecção de placas:
-**YOLOv11**, baseado em Deep Learning, e **HOG + SVM**, baseado em Machine Learning clássico
+YOLOv11, baseado em Deep Learning, e HOG + SVM, baseado em Machine Learning clássico
 com varredura por janelas deslizantes.
 """
 )
@@ -212,17 +201,16 @@ st.write("Modelo 1: YOLOv11")
 st.write("Modelo 2: HOG + SVM")
 st.write("Classe detectada: placa")
 
-```
 st.divider()
 
 st.subheader("Parâmetros fixos")
 st.write("Confiança mínima do YOLO: **0.25**")
 st.write("Passo da janela HOG + SVM: **40**")
-```
 
 try:
 yolo_model = carregar_yolo()
 svm_model = carregar_svm()
+
 except Exception as e:
 st.error("Erro ao carregar os modelos.")
 st.exception(e)
@@ -239,7 +227,6 @@ st.info("Envie uma imagem para iniciar a detecção.")
 else:
 img_np = carregar_imagem(uploaded_file)
 
-```
 st.subheader("Imagem enviada")
 st.image(img_np, use_container_width=True)
 
