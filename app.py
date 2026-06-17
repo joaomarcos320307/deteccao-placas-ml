@@ -16,10 +16,6 @@ st.set_page_config(
 )
 
 
-CONF_YOLO_FIXA = 0.25
-STRIDE_HOG_FIXO = 40
-
-
 @st.cache_resource
 def carregar_yolo():
     return YOLO("models/best.pt")
@@ -35,6 +31,7 @@ def carregar_imagem(uploaded_file):
         image = Image.open(uploaded_file)
         image = ImageOps.exif_transpose(image).convert("RGB")
 
+        # Reduz o tamanho para deixar o HOG + SVM mais viável no Streamlit
         image.thumbnail((960, 960))
 
         return np.array(image)
@@ -86,12 +83,12 @@ def desenhar_box(img_rgb, box, texto, cor=(0, 255, 0)):
     return img_box
 
 
-def detectar_yolo(img_rgb, model_yolo):
+def detectar_yolo(img_rgb, model_yolo, conf_threshold):
     inicio = time.time()
 
     results = model_yolo.predict(
         img_rgb,
-        conf=CONF_YOLO_FIXA,
+        conf=conf_threshold,
         verbose=False
     )
 
@@ -127,7 +124,7 @@ def detectar_hog_svm(
     img_rgb,
     svm_model,
     window_size=(128, 64),
-    stride=STRIDE_HOG_FIXO,
+    stride=40,
     scales=None
 ):
     if scales is None:
@@ -212,17 +209,32 @@ with st.sidebar:
     st.write("Modelo 2: HOG + SVM")
     st.write("Classe detectada: placa")
 
+    conf_threshold = st.slider(
+        "Confiança mínima do YOLO",
+        min_value=0.10,
+        max_value=0.90,
+        value=0.25,
+        step=0.05
+    )
+
     st.divider()
 
-    st.subheader("Parâmetros fixos")
-    st.write("Confiança mínima do YOLO: **0.25**")
-    st.write("Passo da janela HOG + SVM: **40**")
+    st.subheader("Configuração HOG + SVM")
+
+    stride_hog = st.select_slider(
+        "Passo da janela",
+        options=[24, 32, 40, 48, 56],
+        value=40
+    )
+
+    st.caption(
+        "Quanto menor o passo, mais janelas são avaliadas. Isso pode melhorar a busca, mas deixa o processamento mais lento."
+    )
 
 
 try:
     yolo_model = carregar_yolo()
     svm_model = carregar_svm()
-
 except Exception as e:
     st.error("Erro ao carregar os modelos.")
     st.exception(e)
@@ -247,7 +259,8 @@ else:
     with st.spinner("Executando YOLOv11..."):
         box_yolo, conf_yolo, tempo_yolo, total_yolo = detectar_yolo(
             img_np,
-            yolo_model
+            yolo_model,
+            conf_threshold
         )
 
     with st.spinner("Executando HOG + SVM com Sliding Window..."):
@@ -255,7 +268,7 @@ else:
             img_np,
             svm_model,
             window_size=(128, 64),
-            stride=STRIDE_HOG_FIXO,
+            stride=stride_hog,
             scales=[0.75, 1.0, 1.25, 1.5, 1.75, 2.0]
         )
 
