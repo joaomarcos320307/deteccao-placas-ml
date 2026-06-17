@@ -1,3 +1,4 @@
+```python
 import time
 
 import streamlit as st
@@ -201,6 +202,7 @@ st.write(
     """
 )
 
+
 with st.sidebar:
     st.header("Sobre o Projeto")
     st.write("Disciplina: Machine Learning")
@@ -241,17 +243,9 @@ except Exception as e:
 
 
 uploaded_file = st.file_uploader(
-    "Envie uma imagem da galeria",
+    "Envie uma imagem",
     type=["jpg", "jpeg", "png", "webp"]
 )
-
-with st.expander("📷 Tirar uma foto", expanded=False):
-    camera_file = st.camera_input(
-        "Capture uma imagem"
-    )
-
-if uploaded_file is None and camera_file is not None:
-    uploaded_file = camera_file
 
 
 if uploaded_file is None:
@@ -433,3 +427,4 @@ else:
         da janela e à escala da placa.
         """
     )
+```
