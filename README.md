@@ -4,10 +4,6 @@
   <img src="results/result_batch12.png" width="700"/>
 </p>
 
-<p align="center">
-  <img src="results/results.png" width="700"/>
-</p>
-
 Projeto desenvolvido para a disciplina de **Machine Learning**, com o objetivo de comparar uma abordagem baseada em **Deep Learning** e uma abordagem clássica de **Machine Learning** para detecção de placas veiculares.
 
 O trabalho compara dois modelos treinados separadamente:
@@ -197,6 +193,8 @@ deteccao-placas-ml/
 │
 ├── app.py
 ├── requirements.txt
+├── runtime.txt
+├── packages.txt
 ├── README.md
 │
 ├── models/
@@ -243,7 +241,7 @@ deteccao-placas-ml/
 
 ## Tecnologias Utilizadas
 
-* Python 3
+* Python 3.11
 * Ultralytics YOLOv11
 * OpenCV
 * Scikit-Learn
@@ -279,6 +277,14 @@ streamlit run app.py
 
 ---
 
+## Aplicação Online
+
+A aplicação também está disponível em:
+
+https://deteccao-placas-ml.streamlit.app/
+
+---
+
 ## Demonstração
 
 A aplicação permite ao usuário enviar uma imagem de veículo e visualizar:
@@ -288,6 +294,13 @@ A aplicação permite ao usuário enviar uma imagem de veículo e visualizar:
 * A bounding box gerada por cada modelo;
 * O tempo de execução de cada abordagem;
 * A comparação entre os dois métodos.
+
+A interface também possui uma barra lateral com parâmetros ajustáveis:
+
+* **Confiança mínima do YOLOv11:** define o limite mínimo de confiança para exibir uma detecção;
+* **Passo da janela do HOG + SVM:** define o deslocamento da janela durante a varredura da imagem.
+
+Esses controles permitem observar como alterações nos parâmetros influenciam o comportamento dos modelos durante a detecção.
 
 **Observação:** A interface web foi desenvolvida utilizando Streamlit e tem como objetivo demonstrar, de forma interativa, a diferença entre uma abordagem moderna de Deep Learning e uma abordagem clássica de Machine Learning aplicada à visão computacional.
 
@@ -299,7 +312,7 @@ Os resultados obtidos demonstram que o YOLOv11 foi o modelo mais adequado para a
 
 O HOG + SVM apresentou ótimo desempenho como classificador de recortes, porém apresentou limitações quando utilizado como detector por Sliding Window. Apesar disso, a abordagem clássica foi importante para comparação com um modelo de Deep Learning, evidenciando as diferenças entre técnicas tradicionais de Machine Learning e modelos modernos de detecção de objetos.
 
-Portanto, para a aplicação proposta, o YOLOv11 foi considerado o modelo com melhor desempenho geral.
+Portanto, para a aplicação proposta, o YOLOv11 foi considerado o modelo com melhor desempenho geral na detecção de placas veiculares. O HOG + SVM permanece como uma abordagem clássica relevante para fins comparativos, principalmente por demonstrar as limitações de métodos baseados em extração manual de características quando aplicados à detecção em imagem completa.
 
 ---
 
@@ -318,6 +331,8 @@ Projeto desenvolvido para a disciplina de **Machine Learning**.
 ## Observações
 
 O arquivo `models/svm_model.pkl` é armazenado utilizando Git LFS (Large File Storage), devido ao seu tamanho exceder o limite padrão de upload do GitHub.
+
+O arquivo `packages.txt` é utilizado para instalar dependências de sistema necessárias para execução do OpenCV no Streamlit Cloud.
 
 ---
 
